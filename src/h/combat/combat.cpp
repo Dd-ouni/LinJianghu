@@ -18,7 +18,7 @@ namespace combat
   {
     string combatInfo[2]{};
   combat:
-    // system("clear");
+    system("cls");
     // 打印角色信息
     boss.printStatus();
     usr.printStatus();

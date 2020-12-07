@@ -34,6 +34,44 @@ bool Role::isGameOver()
   return false;
 }
 
+ATR_TYPE Role::getA() {
+  ATR_TYPE totalA = this->A;
+  cout << (this->JGZ_BUFF != 0) << endl;
+  if(this->JGZ_BUFF > 0) {
+    totalA += 50;
+    --this->JGZ_BUFF;
+  }
+
+  if(this->JCFS_BUFF > 0) {
+    totalA += (this->MAX_HP - this->HP);
+    --this->JCFS_BUFF;
+  }
+
+  if(this->YJJ_BUFF > 0) {
+    totalA += this->A * 10;
+  }
+
+  if(this->MB_BUFF > 0) {
+    totalA = 0;
+    --this->MB_BUFF;
+  }
+
+  if(this->SUCK_HP_BUFF > 0) {
+    this->HP += totalA / 10 * 6;
+    this->HP = this->HP > this->MAX_HP?this->MAX_HP:this->HP;
+    --this->SUCK_HP_BUFF;
+  }
+
+  if(this->SUCK_SP_BUFF > 0) {
+    this->SP += totalA / 10 * 2;
+    this->SP = this->SP > this->MAX_SP?this->MAX_SP:this->SP;
+    --this->SUCK_SP_BUFF;
+  }
+
+
+  return totalA;
+}
+
 string Role::attack(Role &that)
 {
   // 根据角色发动不一样的攻击
@@ -44,7 +82,7 @@ string Role::attack(Role &that)
   if (this->ROLE_TYPE == (RoleType)0)
   {
     // 玩家攻击
-    int harm{};
+    ATR_TYPE harm{};
     string skillStr{};
 
     cout << "请选择释放的技能：" << endl;
@@ -56,12 +94,14 @@ string Role::attack(Role &that)
     cout << "3 麻痹术\t"
          << "消耗50内力进制目标攻击三个回合" << endl;
     cout << "4 鹰抓功\t"
-         << "10个回合内，对目标造成伤害将回复伤害量25%的内力伤害量50%的生命" << endl;
+         << "10个回合内，对目标造成伤害将回复伤害量20%的内力伤害量60%的生命" << endl;
     cout << "5 绝处逢生\t"
          << "消耗100内力对目标造成基础攻击+已损失血量的伤害" << endl;
     cout << "6 易筋经\t"
          << "消耗300内力 内力和生命值互换 攻击力提高 1000%" << endl;
 
+    // int skillVal = _getch();
+    // 不用清除回车键
     int skillVal = getchar();
     getchar();
     // 主要作用清除getchar 回车
@@ -71,8 +111,10 @@ string Role::attack(Role &that)
     {
     case 48:
       skillStr = "普通攻击";
-      that.HP = that.HP < this->A ? 0 : that.HP - this->A;
-      harm = this->A;
+      harm = this->getA();
+      cout << harm << endl;
+      that.HP = that.HP < harm ? 0 : that.HP - harm;
+      
       break;
     case 49:
       if (this->SP >= 100)
@@ -93,8 +135,9 @@ string Role::attack(Role &that)
       {
         skillStr = "金刚掌";
         this->SP -= 50;
-        that.HP = that.HP < (this->A + 50) ? 0 : that.HP - (this->A + 50);
-        harm = this->A + 50;
+        this->JGZ_BUFF = 1;
+        harm = this->getA();
+        that.HP = that.HP < harm ? 0 : that.HP - harm;
       }
       else
       {
@@ -107,7 +150,7 @@ string Role::attack(Role &that)
       {
         skillStr = "麻痹术";
         this->SP -= 50;
-        that.AC_BUFF = 3;
+        that.MB_BUFF = 3;
       }
       else
       {
@@ -126,8 +169,10 @@ string Role::attack(Role &that)
       {
         skillStr = "绝处逢生";
         this->SP -= 100;
-        that.HP = that.HP < (this->A + (this->MAX_HP - this->HP)) ? 0 : that.HP - (this->A + (this->MAX_HP - this->HP));
-        harm = this->A + (this->MAX_HP - this->HP);
+        this->JCFS_BUFF = 1;
+        harm = this->getA();
+        that.HP = that.HP < harm ? 0 : that.HP - harm;
+        
       }
       else
       {
@@ -143,7 +188,7 @@ string Role::attack(Role &that)
         ATR_TYPE temp = this->HP;
         this->HP = this->SP;
         this->HP = temp;
-        this->A *= 1000;
+        this->YJJ_BUFF = 1;
       }
       else
       {
@@ -151,6 +196,10 @@ string Role::attack(Role &that)
       }
       harm = 0;
       break;
+
+    default:
+      skillStr = "操作失败";
+      harm = 0;
     }
 
     return "玩家：" + this->name + "发动技能[" + skillStr + "]," + that.name + " 损失HP：" + to_string(harm);
@@ -158,17 +207,8 @@ string Role::attack(Role &that)
   else
   {
     // NPC攻击
-    cout << "NPC 攻击1 " << this->A << " " << that.HP << endl;
-    if (that.HP < this->A)
-    {
-      that.HP = 0;
-    }
-    else
-    {
-      that.HP -= this->A;
-    }
-    cout << "NPC 攻击2 " << that.HP << endl;
-    // that.HP = that.HP < this->A ? 0 : that.HP - this->A;
-    return "NPC：" + this->name + "发动攻击，" + that.name + " 损失HP：" + to_string(this->A);
+    ATR_TYPE harm{this->getA()};
+    that.HP = that.HP < harm ? 0 : that.HP - harm;
+    return "NPC：" + this->name + "发动攻击，" + that.name + " 损失HP：" + to_string(harm);
   }
 }
