@@ -6,12 +6,12 @@
 using namespace std;
 using namespace combat;
 
-void testComBat() {
-  Role SunWuKong{"孙悟空", 3000, 1000, 50, (RoleType) 0};
+void testComBat()
+{
+  Role SunWuKong{"孙悟空", 3000, 1000, 50, (RoleType)0};
   Role BiKe{"比克", 10000, 10000, 200};
   OneVsOne(SunWuKong, BiKe);
 }
-
 
 int main()
 {
