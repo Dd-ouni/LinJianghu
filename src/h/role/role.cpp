@@ -72,6 +72,16 @@ ATR_TYPE Role::getA() {
   return totalA;
 }
 
+void Role::printLv() {
+  for (size_t lv{1}; lv <= this->MAX_LV; lv++)
+  {
+    cout << setfill(' ');
+    cout << "\n等级：" << setw(3) << lv << "\t" << setw(10) << lv * lv * 100;
+  }
+  cout << endl;
+  system("pause");
+}
+
 string Role::attack(Role &that)
 {
   // 根据角色发动不一样的攻击
@@ -84,7 +94,9 @@ string Role::attack(Role &that)
     // 玩家攻击
     ATR_TYPE harm{};
     string skillStr{};
+    int skillVal;
 
+reHandle:
     cout << "请选择释放的技能：" << endl;
     cout << "0 普通攻击" << endl;
     cout << "1 治愈\t"
@@ -99,10 +111,11 @@ string Role::attack(Role &that)
          << "消耗100内力对目标造成基础攻击+已损失血量的伤害" << endl;
     cout << "6 易筋经\t"
          << "消耗300内力 内力和生命值互换 攻击力提高 1000%" << endl;
-
+    cout << "l 等级信息\t" << endl;
     // int skillVal = _getch();
     // 不用清除回车键
-    int skillVal = getchar();
+
+    skillVal = getchar();
     getchar();
     // 主要作用清除getchar 回车
     cout << "skillVal " << skillVal << endl;
@@ -196,7 +209,12 @@ string Role::attack(Role &that)
       }
       harm = 0;
       break;
-
+    case 'L':
+      this->printLv();
+      goto reHandle;
+    case 'l':
+      this->printLv();
+      goto reHandle;
     default:
       skillStr = "操作失败";
       harm = 0;
