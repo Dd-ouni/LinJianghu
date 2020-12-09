@@ -21,6 +21,7 @@
         this->YJJ_BUFF = 0;
         this->JGZ_BUFF = 0;
         this->JCFS_BUFF = 0;
+        this->BSJ_BUFF = 0;
         this->MAX_LV = 100;
       }
       Role(string n, ATR_TYPE hp, ATR_TYPE sp, ATR_TYPE a, RoleType type):name(n), MAX_HP(hp),HP(hp),MAX_SP(sp),SP(sp),A(a), ROLE_TYPE(type){
@@ -30,6 +31,7 @@
         this->YJJ_BUFF = 0;
         this->JGZ_BUFF = 0;
         this->JCFS_BUFF = 0;
+        this->BSJ_BUFF = 0;
         this->MAX_LV = 100;
       }
       void printStatus();
@@ -54,5 +56,6 @@
       ATR_TYPE JGZ_BUFF;
       ATR_TYPE JCFS_BUFF;
       ATR_TYPE MAX_LV;
+      ATR_TYPE BSJ_BUFF;
   };
 #endif

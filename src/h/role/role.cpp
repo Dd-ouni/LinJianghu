@@ -51,6 +51,18 @@ ATR_TYPE Role::getA() {
     totalA += this->A * 10;
   }
 
+  if(this->BSJ_BUFF > 0) {
+    totalA = 0;
+    ATR_TYPE totalSP = 0;
+    ATR_TYPE sp = this->SP;
+    do
+    {
+      totalA += (totalA+100);
+      totalSP += (totalSP+50);
+      sp -= totalSP;
+    } while (sp > (totalSP+totalSP+50));
+  }
+
   if(this->MB_BUFF > 0) {
     totalA = 0;
     --this->MB_BUFF;
@@ -111,6 +123,8 @@ reHandle:
          << "消耗100内力对目标造成基础攻击+已损失血量的伤害" << endl;
     cout << "6 易筋经\t"
          << "消耗300内力 内力和生命值互换 攻击力提高 1000%" << endl;
+    cout << "b 必杀技\t"
+         << "绝命连招" << endl;
     cout << "l 等级信息\t" << endl;
     // int skillVal = _getch();
     // 不用清除回车键
@@ -209,6 +223,13 @@ reHandle:
       }
       harm = 0;
       break;
+    case 'b':
+        skillStr = "必杀技";
+        this->BSJ_BUFF = 1;
+        harm = this->getA();
+        that.HP = that.HP < harm ? 0 : that.HP - harm;
+      break;
+
     case 'L':
       this->printLv();
       goto reHandle;
