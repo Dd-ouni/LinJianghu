@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "h/skill/skill.h"
 #include "h/role/role.h"
 #include "h/combat/combat.h"
 #include <stdio.h>
