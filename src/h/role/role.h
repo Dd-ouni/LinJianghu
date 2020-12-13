@@ -3,6 +3,8 @@
 #define _ROLE_H
   #include <iostream>
   #include <string>
+  #include "../common/common.h"
+  #include "../skill/skill.h"
   #include <conio.h>
   #include <stdio.h>
   #include <iomanip>
@@ -11,51 +13,47 @@
     usr,
     npc
   };
-  using ATR_TYPE = unsigned int; 
+  using RoleSkillStat = int[5][2];
+  // 5个技能 每个技能的 0 是否可以使用 1 冷却时间
+  using RoleSkillSys = Skill* [5];
+
   class Role{
     public:
-      Role(string n, ATR_TYPE hp, ATR_TYPE sp, ATR_TYPE a):name(n), MAX_HP(hp),HP(hp),MAX_SP(sp),SP(sp),A(a), ROLE_TYPE((RoleType)1){
-        this->MB_BUFF = 0;
-        this->SUCK_HP_BUFF = 0;
-        this->SUCK_SP_BUFF = 0;
-        this->YJJ_BUFF = 0;
-        this->JGZ_BUFF = 0;
-        this->JCFS_BUFF = 0;
-        this->BSJ_BUFF = 0;
-        this->MAX_LV = 100;
+      Role(string name, atr hp, atr mp, atr dam,Skill* role_skill, RoleType role_type = (RoleType)1)
+      :m_name(name), m_max_hp(hp), m_hp(hp), m_max_mp(mp), m_mp(mp), m_dam(dam), m_role_type(role_type){
+        this->m_skill_stat = (RoleSkillStat*) new RoleSkillStat{
+          {1, 0},
+          {1, 0},
+          {1, 0},
+          {1, 0},
+          {1, 0}
+        };
+        this->m_max_lv = 100;
+        this->m_lv = 1;
+        this->m_max_ap = 100;
+        this->m_ap = 0;
+        this->m_skill_sys = role_skill;
       }
-      Role(string n, ATR_TYPE hp, ATR_TYPE sp, ATR_TYPE a, RoleType type):name(n), MAX_HP(hp),HP(hp),MAX_SP(sp),SP(sp),A(a), ROLE_TYPE(type){
-        this->MB_BUFF = 0;
-        this->SUCK_HP_BUFF = 0;
-        this->SUCK_SP_BUFF = 0;
-        this->YJJ_BUFF = 0;
-        this->JGZ_BUFF = 0;
-        this->JCFS_BUFF = 0;
-        this->BSJ_BUFF = 0;
-        this->MAX_LV = 100;
-      }
-      void printStatus();
+     
+      void printRoleStat();
       void printLv();
-      string attack(Role&);
+      void printSkill();
       bool isGameOver();
-      string getRoleType();
-      string skill(Role&);
-      ATR_TYPE getA();
+      Skill& getSkill(size_t);
+      string getRoleTypeDes();
     private:
-      string name;
-      ATR_TYPE MAX_HP;
-      ATR_TYPE HP;
-      ATR_TYPE MAX_SP;
-      ATR_TYPE SP;
-      ATR_TYPE A;
-      RoleType ROLE_TYPE;
-      ATR_TYPE MB_BUFF;
-      ATR_TYPE SUCK_SP_BUFF;
-      ATR_TYPE SUCK_HP_BUFF;
-      ATR_TYPE YJJ_BUFF;
-      ATR_TYPE JGZ_BUFF;
-      ATR_TYPE JCFS_BUFF;
-      ATR_TYPE MAX_LV;
-      ATR_TYPE BSJ_BUFF;
+      string m_name;
+      atr m_max_lv;
+      atr m_lv;
+      atr m_max_hp;
+      atr m_hp;
+      atr m_max_mp;
+      atr m_mp;
+      atr m_max_ap;
+      atr m_ap;
+      atr m_dam;
+      RoleType m_role_type;
+      Skill* m_skill_sys;
+      RoleSkillStat* m_skill_stat;
   };
 #endif

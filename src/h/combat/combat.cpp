@@ -17,20 +17,22 @@ namespace combat
   void OneVsOne(Role &usr, Role &boss)
   {
     string combatInfo[2]{};
-  combat:
+  // combat:
     system("cls");
     // 打印角色信息
-    boss.printStatus();
-    usr.printStatus();
+    boss.printRoleStat();
+    boss.printSkill();
+    usr.printRoleStat();
+    usr.printSkill();
     // 打印战斗信息
     printCombatInfo(combatInfo);
     // 开始战斗
-    combatInfo[0] = usr.attack(boss);
-    combatInfo[1] = boss.attack(usr);
+    // combatInfo[0] = usr.attack(boss);
+    // combatInfo[1] = boss.attack(usr);
 
-    if (!usr.isGameOver() && !boss.isGameOver())
-    {
-      goto combat;
-    }
+    // if (!usr.isGameOver() && !boss.isGameOver())
+    // {
+    //   goto combat;
+    // }
   }
 } // namespace combat
