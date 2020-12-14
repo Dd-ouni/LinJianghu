@@ -34,45 +34,52 @@ bool Role::isGameOver()
   return false;
 }
 
-ATR_TYPE Role::getA() {
+ATR_TYPE Role::getA()
+{
   ATR_TYPE totalA = this->A;
   cout << (this->JGZ_BUFF != 0) << endl;
-  if(this->JGZ_BUFF > 0) {
+  if (this->JGZ_BUFF > 0)
+  {
     totalA += 50;
     --this->JGZ_BUFF;
   }
 
-  if(this->JCFS_BUFF > 0) {
+  if (this->JCFS_BUFF > 0)
+  {
     totalA += (this->MAX_HP - this->HP);
     --this->JCFS_BUFF;
   }
 
-  if(this->YJJ_BUFF > 0) {
+  if (this->YJJ_BUFF > 0)
+  {
     totalA += this->A * 10;
   }
 
-  if(this->MB_BUFF > 0) {
+  if (this->MB_BUFF > 0)
+  {
     totalA = 0;
     --this->MB_BUFF;
   }
 
-  if(this->SUCK_HP_BUFF > 0) {
+  if (this->SUCK_HP_BUFF > 0)
+  {
     this->HP += totalA / 10 * 6;
-    this->HP = this->HP > this->MAX_HP?this->MAX_HP:this->HP;
+    this->HP = this->HP > this->MAX_HP ? this->MAX_HP : this->HP;
     --this->SUCK_HP_BUFF;
   }
 
-  if(this->SUCK_SP_BUFF > 0) {
+  if (this->SUCK_SP_BUFF > 0)
+  {
     this->SP += totalA / 10 * 2;
-    this->SP = this->SP > this->MAX_SP?this->MAX_SP:this->SP;
+    this->SP = this->SP > this->MAX_SP ? this->MAX_SP : this->SP;
     --this->SUCK_SP_BUFF;
   }
-
 
   return totalA;
 }
 
-void Role::printLv() {
+void Role::printLv()
+{
   for (size_t lv{1}; lv <= this->MAX_LV; lv++)
   {
     cout << setfill(' ');
@@ -96,7 +103,7 @@ string Role::attack(Role &that)
     string skillStr{};
     int skillVal;
 
-reHandle:
+  reHandle:
     cout << "请选择释放的技能：" << endl;
     cout << "0 普通攻击" << endl;
     cout << "1 治愈\t"
@@ -127,7 +134,7 @@ reHandle:
       harm = this->getA();
       cout << harm << endl;
       that.HP = that.HP < harm ? 0 : that.HP - harm;
-      
+
       break;
     case 49:
       if (this->SP >= 100)
@@ -185,7 +192,6 @@ reHandle:
         this->JCFS_BUFF = 1;
         harm = this->getA();
         that.HP = that.HP < harm ? 0 : that.HP - harm;
-        
       }
       else
       {
