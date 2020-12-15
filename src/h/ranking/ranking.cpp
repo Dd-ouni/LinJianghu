@@ -27,9 +27,14 @@ void printRanking()
     }
 
 
-    for (size_t i = 0, count = usrInfoList.size(); i < count; i++)
+    for (size_t i = 0, count = usrInfoList.size(); i < (count - 1); i++)
     {
-        
+        for (size_t ii = i; ii < (count - 1); ii++)
+        {   
+            if(usrInfoList.at(ii)->exp < usrInfoList.at(ii+1)->exp){
+                swap(usrInfoList[ii], usrInfoList[ii+1]);
+            }
+        }
     }
     
     
