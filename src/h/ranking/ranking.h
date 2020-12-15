@@ -7,6 +7,6 @@ typedef struct UsrInfo
 {
     string id;
     size_t exp;
-} * PsrInfo;
+} * PUsrInfo;
 void printRanking();
 #endif

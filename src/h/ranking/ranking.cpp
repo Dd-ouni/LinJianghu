@@ -8,19 +8,35 @@ void printRanking()
         expfield{"exp="};
     size_t idsize{(size_t)idfield.size()},
         expsize{(size_t)expfield.size()};
-    vector<UsrInfo> usrInfoList;
+    vector<PUsrInfo> usrInfoList;
 
-    while (data.size())
+    size_t idpos = 0,
+           idendpos = 0,
+           exppos = 0,
+           expendpos = 0;
+
+    
+
+    while (data[expendpos+1] != 0)
     {
-        size_t idpos = data.find(idfield) + idsize,
-               idendpos = (size_t)data.find(";"),
-               exppos = data.find(expfield) + expsize,
-               expendpos = (size_t)data.find(";", exppos);
-
-        cout << data.substr(idpos, idendpos - idpos) << endl;
-        cout << data.substr(exppos, expendpos - exppos) << endl;
-
-        data.erase(0, expendpos + 1);
-        cout << data << endl;
+        idpos = data.find(idfield, expendpos) + idsize;
+        idendpos = (size_t)data.find(";", idpos);
+        exppos = data.find(expfield, idendpos) + expsize;
+        expendpos = (size_t)data.find(";", exppos);
+        usrInfoList.push_back(new UsrInfo{data.substr(idpos, idendpos - idpos), stoul(data.substr(exppos, expendpos - exppos))});
     }
+
+
+    for (size_t i = 0, count = usrInfoList.size(); i < count; i++)
+    {
+        
+    }
+    
+    
+
+    for(auto item: usrInfoList){
+        cout << "id：" << item->id << " exp：" << item->exp << endl;
+    }
+
+  
 }
