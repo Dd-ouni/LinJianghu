@@ -2,15 +2,21 @@
 #include <string>
 #include "h/role/role.h"
 #include "h/combat/combat.h"
+#include "h/ranking/ranking.h"
 #include <stdio.h>
 using namespace std;
 using namespace combat;
 
-void testComBat()
+// void testComBat()
+// {
+//   Role SunWuKong{"孙悟空", 3000, 1000, 50, (RoleType)0};
+//   Role BiKe{"比克", 10000, 10000, 200};
+//   OneVsOne(SunWuKong, BiKe);
+// }
+
+void testRanking()
 {
-  Role SunWuKong{"孙悟空", 3000, 1000, 50, (RoleType)0};
-  Role BiKe{"比克", 10000, 10000, 200};
-  OneVsOne(SunWuKong, BiKe);
+  printRanking();
 }
 
 int main()
@@ -18,6 +24,7 @@ int main()
 
   string game_name{"Lin Jiang hu"};
   cout << "hello " << game_name << endl;
-  testComBat();
+  // testComBat();
+  testRanking();
   return 0;
 }
