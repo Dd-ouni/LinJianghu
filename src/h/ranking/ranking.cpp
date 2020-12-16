@@ -15,9 +15,7 @@ void printRanking()
            exppos = 0,
            expendpos = 0;
 
-    
-
-    while (data[expendpos+1] != 0)
+    while (data[expendpos + 1] != 0)
     {
         idpos = data.find(idfield, expendpos) + idsize;
         idendpos = (size_t)data.find(";", idpos);
@@ -26,22 +24,19 @@ void printRanking()
         usrInfoList.push_back(new UsrInfo{data.substr(idpos, idendpos - idpos), stoul(data.substr(exppos, expendpos - exppos))});
     }
 
-
     for (size_t i = 0, count = usrInfoList.size(); i < (count - 1); i++)
     {
-        for (size_t ii = i; ii < (count - 1); ii++)
-        {   
-            if(usrInfoList.at(ii)->exp < usrInfoList.at(ii+1)->exp){
-                swap(usrInfoList[ii], usrInfoList[ii+1]);
+        for (size_t ii = 0; ii < (count - (i + 1)); ii++)
+        {
+            if (usrInfoList.at(ii)->exp > usrInfoList.at(ii + 1)->exp)
+            {
+                swap(usrInfoList[ii], usrInfoList[ii + 1]);
             }
         }
     }
-    
-    
 
-    for(auto item: usrInfoList){
+    for (auto item : usrInfoList)
+    {
         cout << "id：" << item->id << " exp：" << item->exp << endl;
     }
-
-  
 }
